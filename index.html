@@ -3,127 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>꾸밈+ 꾸밈 유형 테스트</title>
+  <title>꾸밈+ 테스트</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      background-color: #fff8f0;
-      color: #333;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    body {
+      background-color: #f7f7f7;
+      color: #111;
     }
     header {
-      background-color: #ffe4c4;
       padding: 1.5rem;
       text-align: center;
+      border-bottom: 1px solid #ddd;
+      background-color: white;
     }
     header h1 {
-      margin: 0;
-      font-size: 2rem;
-      color: #5a3e2b;
+      font-size: 1.8rem;
+      font-weight: 600;
     }
     .container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      padding: 2rem;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-    main {
-      flex: 1;
-      max-width: 600px;
-      padding: 2rem;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
-    }
-    .iphone-frame {
-      position: relative;
-      width: 390px;
-      height: 844px;
-      background: #000;
-      border-radius: 60px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-    .notch {
-      position: absolute;
-      top: 0;
-      width: 210px;
-      height: 30px;
-      background: #000;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      z-index: 10;
-    }
-    .screen {
-      width: 100%;
-      height: 100%;
+      max-width: 420px;
+      margin: 2rem auto;
       background-color: white;
-      padding: 2rem 1.2rem;
-      box-sizing: border-box;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-radius: 60px;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
     .question {
       font-size: 1.2rem;
-      margin-bottom: 1rem;
-      text-align: center;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
     }
     .options button {
-      display: block;
-      width: 100%;
-      margin: 0.5rem 0;
-      padding: 0.8rem;
-      background-color: #ffe4c4;
-      border: none;
+      padding: 1rem;
+      background-color: #f2f2f2;
+      border: 1px solid #ddd;
       border-radius: 8px;
       font-size: 1rem;
-      color: #5a3e2b;
+      color: #333;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
     }
     .options button:hover {
-      background-color: #ffd6aa;
+      background-color: #e6e6e6;
     }
     .result {
-      font-size: 1.2rem;
-      color: #c76c3f;
       margin-top: 2rem;
+      font-size: 1.2rem;
+      font-weight: 500;
       text-align: center;
+      color: #444;
+    }
+    @media (max-width: 500px) {
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>꾸밈 유형 테스트</h1>
+    <h1>꾸밈+ 테스트</h1>
   </header>
   <div class="container">
-    <main>
-      <div id="quiz-main">
-        <div class="question" id="question-main"></div>
-        <div class="options" id="options-main"></div>
-      </div>
-      <div class="result" id="result-main"></div>
-    </main>
-
-    <!-- iPhone 스타일 앱 프리뷰 -->
-    <div class="iphone-frame">
-      <div class="notch"></div>
-      <div class="screen">
-        <div id="quiz-preview">
-          <div class="question" id="question-preview"></div>
-          <div class="options" id="options-preview"></div>
-        </div>
-        <div class="result" id="result-preview"></div>
-      </div>
+    <div id="quiz">
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
     </div>
+    <div class="result" id="result"></div>
   </div>
 
   <script>
@@ -158,58 +116,44 @@
     let current = 0;
     let totalScore = 0;
 
-    function updateQuestion() {
+    const questionDiv = document.getElementById('question');
+    const optionsDiv = document.getElementById('options');
+    const resultDiv = document.getElementById('result');
+
+    function showQuestion() {
       const q = questions[current];
-      document.getElementById('question-main').textContent = q.q;
-      document.getElementById('question-preview').textContent = q.q;
-
-      const optionsMain = document.getElementById('options-main');
-      const optionsPreview = document.getElementById('options-preview');
-      optionsMain.innerHTML = '';
-      optionsPreview.innerHTML = '';
-
+      questionDiv.textContent = q.q;
+      optionsDiv.innerHTML = '';
       q.options.forEach((option, i) => {
-        const btnMain = document.createElement('button');
-        btnMain.textContent = option;
-        btnMain.onclick = () => handleAnswer(i);
-
-        const btnPreview = document.createElement('button');
-        btnPreview.textContent = option;
-        btnPreview.onclick = () => handleAnswer(i);
-
-        optionsMain.appendChild(btnMain);
-        optionsPreview.appendChild(btnPreview);
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.onclick = () => {
+          totalScore += q.scores[i];
+          current++;
+          if (current < questions.length) {
+            showQuestion();
+          } else {
+            showResult();
+          }
+        };
+        optionsDiv.appendChild(btn);
       });
     }
 
-    function handleAnswer(index) {
-      totalScore += questions[current].scores[index];
-      current++;
-      if (current < questions.length) {
-        updateQuestion();
-      } else {
-        showFinalResult();
-      }
-    }
-
-    function showFinalResult() {
-      document.getElementById('quiz-main').style.display = 'none';
-      document.getElementById('quiz-preview').style.display = 'none';
-
+    function showResult() {
+      document.getElementById('quiz').style.display = 'none';
       let result = '';
       if (totalScore <= 4) {
         result = '🌱 초심자형 - 이제 시작이에요! 기초적인 정보부터 알아가요.';
       } else if (totalScore <= 8) {
-        result = '🌿 도전형 - 조금씩 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
+        result = '🌿 도전형 - 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
       } else {
-        result = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
+        result = '🌳 실전형 - 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
       }
-
-      document.getElementById('result-main').textContent = result;
-      document.getElementById('result-preview').textContent = result;
+      resultDiv.textContent = result;
     }
 
-    updateQuestion();
+    showQuestion();
   </script>
 </body>
 </html>
