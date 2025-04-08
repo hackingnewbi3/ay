@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>꾸밈+ 유형 테스트</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -13,8 +13,8 @@
     }
 
     body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: #f9f9f9;
+      font-family: 'Pretendard', sans-serif;
+      background: #f3f3f3;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -22,7 +22,7 @@
       padding: 2rem;
     }
 
-    .wrapper {
+    .container {
       display: flex;
       gap: 3rem;
       align-items: flex-start;
@@ -30,101 +30,117 @@
       flex-wrap: wrap;
     }
 
-    .test-container {
-      background: #fff;
-      width: 100%;
-      max-width: 420px;
+    .card {
+      background: white;
+      border-radius: 20px;
       padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      max-width: 460px;
+      width: 100%;
+      transition: all 0.3s ease;
     }
 
     .title {
-      text-align: center;
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       font-weight: 600;
+      color: #222;
       margin-bottom: 2rem;
+      text-align: center;
     }
 
     .question {
       font-size: 1.2rem;
-      margin-bottom: 1.5rem;
+      color: #333;
       text-align: center;
+      margin-bottom: 1.5rem;
     }
 
     .options button {
       width: 100%;
-      padding: 0.9rem 1rem;
-      margin-bottom: 0.8rem;
-      background-color: #f4f4f4;
-      border: 1px solid #ddd;
-      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #f7f7f7;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
       font-size: 1rem;
+      color: #333;
       cursor: pointer;
       transition: background 0.2s ease;
     }
 
     .options button:hover {
-      background-color: #e9e9e9;
+      background: #eaeaea;
     }
 
     .result {
       font-size: 1.1rem;
+      text-align: center;
       color: #444;
       margin-top: 2rem;
-      text-align: center;
+      animation: fadeIn 0.6s ease-in-out;
     }
 
-    .iphone-preview {
-      width: 260px;
-      height: 520px;
-      border: 16px solid #ccc;
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    .iphone {
+      width: 280px;
+      height: 580px;
       border-radius: 40px;
-      background: #fff;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      overflow: hidden;
+      background: white;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      border: 12px solid #d2d2d2;
       display: flex;
       flex-direction: column;
-      padding: 1.5rem 1rem;
+      overflow: hidden;
       position: relative;
     }
 
-    .iphone-notch {
-      width: 120px;
-      height: 24px;
+    .notch {
+      height: 30px;
+      width: 140px;
       background: #ccc;
-      border-radius: 12px;
-      margin: 0 auto 1rem;
+      border-radius: 0 0 20px 20px;
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
-    .iphone-content .question {
+    .iphone-inner {
+      padding: 2rem 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .iphone .question {
       font-size: 1rem;
-      margin-bottom: 1rem;
-      text-align: center;
     }
 
-    .iphone-content .options button {
+    .iphone .options button {
       font-size: 0.9rem;
-      padding: 0.6rem;
-      margin-bottom: 0.5rem;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      background: #f4f4f4;
-      cursor: pointer;
-      width: 100%;
+      padding: 0.7rem;
+      border-radius: 10px;
+      margin-bottom: 0.7rem;
     }
 
     .iphone-result {
       font-size: 0.95rem;
-      text-align: center;
-      color: #333;
+      color: #444;
       margin-top: 1.5rem;
+      text-align: center;
+      animation: fadeIn 0.6s ease-in-out;
     }
+
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="test-container">
+  <div class="container">
+    <div class="card">
       <div class="title">꾸밈+ 유형 테스트</div>
       <div id="quiz">
         <div class="question" id="question"></div>
@@ -133,9 +149,9 @@
       <div class="result" id="result"></div>
     </div>
 
-    <div class="iphone-preview">
-      <div class="iphone-notch"></div>
-      <div class="iphone-content">
+    <div class="iphone">
+      <div class="notch"></div>
+      <div class="iphone-inner">
         <div class="question" id="iphone-question"></div>
         <div class="options" id="iphone-options"></div>
         <div class="iphone-result" id="iphone-result"></div>
@@ -192,23 +208,26 @@
       iphoneOptionsDiv.innerHTML = '';
 
       q.options.forEach((option, i) => {
-        const webBtn = document.createElement('button');
-        const phoneBtn = document.createElement('button');
-        webBtn.textContent = phoneBtn.textContent = option;
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.onclick = () => handleAnswer(i);
+        optionsDiv.appendChild(btn);
 
-        webBtn.onclick = phoneBtn.onclick = () => {
-          totalScore += q.scores[i];
-          current++;
-          if (current < questions.length) {
-            renderQuestion();
-          } else {
-            showResult();
-          }
-        };
-
-        optionsDiv.appendChild(webBtn);
-        iphoneOptionsDiv.appendChild(phoneBtn);
+        const iphoneBtn = document.createElement('button');
+        iphoneBtn.textContent = option;
+        iphoneBtn.onclick = () => handleAnswer(i);
+        iphoneOptionsDiv.appendChild(iphoneBtn);
       });
+    }
+
+    function handleAnswer(index) {
+      totalScore += questions[current].scores[index];
+      current++;
+      if (current < questions.length) {
+        renderQuestion();
+      } else {
+        showResult();
+      }
     }
 
     function showResult() {
@@ -222,8 +241,8 @@
         resultText = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
       }
       resultDiv.textContent = resultText;
-      iphoneOptionsDiv.innerHTML = '';
       iphoneQuestionDiv.textContent = '';
+      iphoneOptionsDiv.innerHTML = '';
       iphoneResultDiv.textContent = resultText;
     }
 
