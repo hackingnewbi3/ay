@@ -2,159 +2,117 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>꾸밈+ 유형 테스트</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>꾸밈+ 꾸밈 유형 테스트</title>
   <style>
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
     }
-
     body {
-      font-family: 'Pretendard', sans-serif;
-      background: #f3f3f3;
+      margin: 0;
+      font-family: 'Apple SD Gothic Neo', 'Arial', sans-serif;
+      background-color: #fff8f0;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       min-height: 100vh;
       padding: 2rem;
     }
-
+    header {
+      background-color: #ffe4c4;
+      padding: 1.5rem;
+      text-align: center;
+      width: 100%;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      max-width: 1000px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #5a3e2b;
+    }
     .container {
       display: flex;
-      gap: 3rem;
-      align-items: flex-start;
+      gap: 2rem;
       justify-content: center;
+      align-items: flex-start;
       flex-wrap: wrap;
     }
-
-    .card {
+    .quiz-box, .iphone-frame {
       background: white;
-      border-radius: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      max-width: 460px;
-      width: 100%;
+      width: 360px;
       transition: all 0.3s ease;
     }
-
-    .title {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: #222;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
     .question {
       font-size: 1.2rem;
-      color: #333;
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .options button {
-      width: 100%;
-      padding: 1rem;
       margin-bottom: 1rem;
-      background: #f7f7f7;
-      border: 1px solid #e0e0e0;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.8rem;
+      background-color: #ffe4c4;
+      border: none;
       border-radius: 12px;
       font-size: 1rem;
-      color: #333;
+      color: #5a3e2b;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: all 0.2s ease;
     }
-
     .options button:hover {
-      background: #eaeaea;
+      background-color: #ffd6aa;
     }
-
     .result {
-      font-size: 1.1rem;
-      text-align: center;
-      color: #444;
+      font-size: 1.2rem;
+      color: #c76c3f;
       margin-top: 2rem;
-      animation: fadeIn 0.6s ease-in-out;
+      text-align: center;
     }
-
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
-    .iphone {
-      width: 280px;
-      height: 580px;
+    .iphone-frame {
+      background: #000;
       border-radius: 40px;
-      background: white;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-      border: 12px solid #d2d2d2;
+      padding: 1.5rem;
+      width: 390px;
+      height: 844px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      align-items: center;
+      justify-content: center;
       position: relative;
     }
-
-    .notch {
-      height: 30px;
-      width: 140px;
-      background: #ccc;
-      border-radius: 0 0 20px 20px;
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
     .iphone-inner {
-      padding: 2rem 1rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
+      background: white;
+      width: 100%;
+      height: 100%;
+      border-radius: 36px;
+      padding: 1.5rem;
+      overflow-y: auto;
     }
-
-    .iphone .question {
-      font-size: 1rem;
-    }
-
-    .iphone .options button {
-      font-size: 0.9rem;
-      padding: 0.7rem;
-      border-radius: 10px;
-      margin-bottom: 0.7rem;
-    }
-
-    .iphone-result {
-      font-size: 0.95rem;
-      color: #444;
-      margin-top: 1.5rem;
-      text-align: center;
-      animation: fadeIn 0.6s ease-in-out;
-    }
-
   </style>
 </head>
 <body>
+  <header>
+    <h1>꾸밈+ 꾸밈 유형 테스트</h1>
+  </header>
   <div class="container">
-    <div class="card">
-      <div class="title">꾸밈+ 유형 테스트</div>
-      <div id="quiz">
-        <div class="question" id="question"></div>
-        <div class="options" id="options"></div>
-      </div>
+    <div class="quiz-box">
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
       <div class="result" id="result"></div>
     </div>
-
-    <div class="iphone">
-      <div class="notch"></div>
+    <div class="iphone-frame">
       <div class="iphone-inner">
         <div class="question" id="iphone-question"></div>
         <div class="options" id="iphone-options"></div>
-        <div class="iphone-result" id="iphone-result"></div>
+        <div class="result" id="iphone-result"></div>
       </div>
     </div>
   </div>
@@ -201,49 +159,71 @@
 
     function renderQuestion() {
       const q = questions[current];
-      questionDiv.textContent = q.q;
-      iphoneQuestionDiv.textContent = q.q;
 
-      optionsDiv.innerHTML = '';
-      iphoneOptionsDiv.innerHTML = '';
+      questionDiv.style.opacity = 0;
+      iphoneQuestionDiv.style.opacity = 0;
 
-      q.options.forEach((option, i) => {
-        const btn = document.createElement('button');
-        btn.textContent = option;
-        btn.onclick = () => handleAnswer(i);
-        optionsDiv.appendChild(btn);
+      setTimeout(() => {
+        questionDiv.textContent = q.q;
+        iphoneQuestionDiv.textContent = q.q;
 
-        const iphoneBtn = document.createElement('button');
-        iphoneBtn.textContent = option;
-        iphoneBtn.onclick = () => handleAnswer(i);
-        iphoneOptionsDiv.appendChild(iphoneBtn);
-      });
+        optionsDiv.innerHTML = '';
+        iphoneOptionsDiv.innerHTML = '';
+
+        q.options.forEach((option, i) => {
+          const btn = document.createElement('button');
+          btn.textContent = option;
+          btn.onclick = () => handleAnswer(i);
+          optionsDiv.appendChild(btn);
+
+          const iphoneBtn = document.createElement('button');
+          iphoneBtn.textContent = option;
+          iphoneBtn.onclick = () => handleAnswer(i);
+          iphoneOptionsDiv.appendChild(iphoneBtn);
+        });
+
+        questionDiv.style.opacity = 1;
+        iphoneQuestionDiv.style.opacity = 1;
+      }, 200);
     }
 
     function handleAnswer(index) {
+      disableOptions();
       totalScore += questions[current].scores[index];
       current++;
-      if (current < questions.length) {
-        renderQuestion();
-      } else {
-        showResult();
-      }
+
+      setTimeout(() => {
+        if (current < questions.length) {
+          renderQuestion();
+        } else {
+          showResult();
+        }
+      }, 400);
+    }
+
+    function disableOptions() {
+      const allButtons = document.querySelectorAll('button');
+      allButtons.forEach(btn => btn.disabled = true);
+      setTimeout(() => {
+        allButtons.forEach(btn => btn.disabled = false);
+      }, 400);
     }
 
     function showResult() {
-      document.getElementById('quiz').style.display = 'none';
-      let resultText = '';
+      document.getElementById('options').style.display = 'none';
+      document.getElementById('iphone-options').style.display = 'none';
+
+      let result = '';
       if (totalScore <= 4) {
-        resultText = '🌱 초심자형 - 이제 시작이에요! 기초적인 정보부터 알아가요.';
+        result = '🌱 초심자형 - 이제 시작이에요! 기초적인 정보부터 알아가요.';
       } else if (totalScore <= 8) {
-        resultText = '🌿 도전형 - 조금씩 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
+        result = '🌿 도전형 - 조금씩 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
       } else {
-        resultText = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
+        result = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
       }
-      resultDiv.textContent = resultText;
-      iphoneQuestionDiv.textContent = '';
-      iphoneOptionsDiv.innerHTML = '';
-      iphoneResultDiv.textContent = resultText;
+
+      resultDiv.textContent = result;
+      iphoneResultDiv.textContent = result;
     }
 
     renderQuestion();
