@@ -29,7 +29,7 @@
       gap: 2rem;
       flex-wrap: wrap;
     }
-    main, .app-preview {
+    main {
       flex: 1;
       max-width: 600px;
       padding: 2rem;
@@ -37,16 +37,39 @@
       border-radius: 12px;
       box-shadow: 0 0 12px rgba(0,0,0,0.1);
     }
-    .app-preview {
-      width: 360px;
-      height: 640px;
-      border: 6px solid #ccc;
-      border-radius: 24px;
+    .iphone-frame {
+      position: relative;
+      width: 390px;
+      height: 844px;
+      background: #000;
+      border-radius: 60px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .notch {
+      position: absolute;
+      top: 0;
+      width: 210px;
+      height: 30px;
+      background: #000;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      z-index: 10;
+    }
+    .screen {
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      padding: 2rem 1.2rem;
+      box-sizing: border-box;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       align-items: center;
-      overflow-y: auto;
+      border-radius: 60px;
     }
     .question {
       font-size: 1.2rem;
@@ -89,14 +112,20 @@
       </div>
       <div class="result" id="result-main"></div>
     </main>
-    <div class="app-preview">
-      <div id="quiz-preview">
-        <div class="question" id="question-preview"></div>
-        <div class="options" id="options-preview"></div>
+
+    <!-- iPhone 스타일 앱 프리뷰 -->
+    <div class="iphone-frame">
+      <div class="notch"></div>
+      <div class="screen">
+        <div id="quiz-preview">
+          <div class="question" id="question-preview"></div>
+          <div class="options" id="options-preview"></div>
+        </div>
+        <div class="result" id="result-preview"></div>
       </div>
-      <div class="result" id="result-preview"></div>
     </div>
   </div>
+
   <script>
     const questions = [
       {
