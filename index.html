@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>꾸밈+ 테스트</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>꾸밈+ 유형 테스트</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -14,14 +14,20 @@
 
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background: #f7f7f7;
-      color: #111;
+      background: #f9f9f9;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
       min-height: 100vh;
       padding: 2rem;
-      gap: 2rem;
+    }
+
+    .wrapper {
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .test-container {
@@ -30,19 +36,18 @@
       max-width: 420px;
       padding: 2rem;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
 
     .title {
       text-align: center;
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       font-weight: 600;
       margin-bottom: 2rem;
     }
 
     .question {
-      font-size: 1.1rem;
-      font-weight: 500;
+      font-size: 1.2rem;
       margin-bottom: 1.5rem;
       text-align: center;
     }
@@ -51,17 +56,16 @@
       width: 100%;
       padding: 0.9rem 1rem;
       margin-bottom: 0.8rem;
-      background-color: #f0f0f0;
+      background-color: #f4f4f4;
       border: 1px solid #ddd;
       border-radius: 10px;
       font-size: 1rem;
-      color: #111;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.2s ease;
     }
 
     .options button:hover {
-      background-color: #e0e0e0;
+      background-color: #e9e9e9;
     }
 
     .result {
@@ -78,12 +82,11 @@
       border-radius: 40px;
       background: #fff;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       padding: 1.5rem 1rem;
+      position: relative;
     }
 
     .iphone-notch {
@@ -97,38 +100,46 @@
     .iphone-content .question {
       font-size: 1rem;
       margin-bottom: 1rem;
+      text-align: center;
     }
 
-    .iphone-content button {
+    .iphone-content .options button {
       font-size: 0.9rem;
       padding: 0.6rem;
       margin-bottom: 0.5rem;
       border-radius: 8px;
       border: 1px solid #ddd;
       background: #f4f4f4;
-      color: #111;
       cursor: pointer;
+      width: 100%;
+    }
+
+    .iphone-result {
+      font-size: 0.95rem;
+      text-align: center;
+      color: #333;
+      margin-top: 1.5rem;
     }
   </style>
 </head>
 <body>
-  <div class="test-container">
-    <div class="title">꾸밈+ 유형 테스트</div>
-    <div id="quiz">
-      <div class="question" id="question"></div>
-      <div class="options" id="options"></div>
+  <div class="wrapper">
+    <div class="test-container">
+      <div class="title">꾸밈+ 유형 테스트</div>
+      <div id="quiz">
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+      </div>
+      <div class="result" id="result"></div>
     </div>
-    <div class="result" id="result"></div>
-  </div>
 
-  <div class="iphone-preview">
-    <div class="iphone-notch"></div>
-    <div class="iphone-content">
-      <div class="question">나는 외모를 가꾸는 게 중요하다고 생각한다.</div>
-      <button>매우 그렇다</button>
-      <button>약간 그렇다</button>
-      <button>잘 모르겠다</button>
-      <button>아니다</button>
+    <div class="iphone-preview">
+      <div class="iphone-notch"></div>
+      <div class="iphone-content">
+        <div class="question" id="iphone-question"></div>
+        <div class="options" id="iphone-options"></div>
+        <div class="iphone-result" id="iphone-result"></div>
+      </div>
     </div>
   </div>
 
@@ -168,40 +179,55 @@
     const optionsDiv = document.getElementById('options');
     const resultDiv = document.getElementById('result');
 
-    function showQuestion() {
+    const iphoneQuestionDiv = document.getElementById('iphone-question');
+    const iphoneOptionsDiv = document.getElementById('iphone-options');
+    const iphoneResultDiv = document.getElementById('iphone-result');
+
+    function renderQuestion() {
       const q = questions[current];
       questionDiv.textContent = q.q;
+      iphoneQuestionDiv.textContent = q.q;
+
       optionsDiv.innerHTML = '';
+      iphoneOptionsDiv.innerHTML = '';
+
       q.options.forEach((option, i) => {
-        const btn = document.createElement('button');
-        btn.textContent = option;
-        btn.onclick = () => {
+        const webBtn = document.createElement('button');
+        const phoneBtn = document.createElement('button');
+        webBtn.textContent = phoneBtn.textContent = option;
+
+        webBtn.onclick = phoneBtn.onclick = () => {
           totalScore += q.scores[i];
           current++;
           if (current < questions.length) {
-            showQuestion();
+            renderQuestion();
           } else {
             showResult();
           }
         };
-        optionsDiv.appendChild(btn);
+
+        optionsDiv.appendChild(webBtn);
+        iphoneOptionsDiv.appendChild(phoneBtn);
       });
     }
 
     function showResult() {
       document.getElementById('quiz').style.display = 'none';
-      let result = '';
+      let resultText = '';
       if (totalScore <= 4) {
-        result = '🌱 초심자형 - 이제 시작이에요! 기초적인 정보부터 알아가요.';
+        resultText = '🌱 초심자형 - 이제 시작이에요! 기초적인 정보부터 알아가요.';
       } else if (totalScore <= 8) {
-        result = '🌿 도전형 - 조금씩 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
+        resultText = '🌿 도전형 - 조금씩 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
       } else {
-        result = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
+        resultText = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
       }
-      resultDiv.textContent = result;
+      resultDiv.textContent = resultText;
+      iphoneOptionsDiv.innerHTML = '';
+      iphoneQuestionDiv.textContent = '';
+      iphoneResultDiv.textContent = resultText;
     }
 
-    showQuestion();
+    renderQuestion();
   </script>
 </body>
 </html>
