@@ -27,8 +27,9 @@
       justify-content: center;
       padding: 2rem;
       gap: 2rem;
+      flex-wrap: wrap;
     }
-    main {
+    main, .app-preview {
       flex: 1;
       max-width: 600px;
       padding: 2rem;
@@ -39,25 +40,18 @@
     .app-preview {
       width: 360px;
       height: 640px;
-      background: white;
-      border-radius: 24px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
       border: 6px solid #ccc;
-      overflow: hidden;
+      border-radius: 24px;
       display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      color: #888;
-      text-align: center;
-      padding: 1rem;
-      background-image: url('https://via.placeholder.com/360x640?text=App+Preview');
-      background-size: cover;
-      background-position: center;
+      overflow-y: auto;
     }
     .question {
       font-size: 1.2rem;
       margin-bottom: 1rem;
+      text-align: center;
     }
     .options button {
       display: block;
@@ -89,14 +83,18 @@
   </header>
   <div class="container">
     <main>
-      <div id="quiz">
-        <div class="question" id="question"></div>
-        <div class="options" id="options"></div>
+      <div id="quiz-main">
+        <div class="question" id="question-main"></div>
+        <div class="options" id="options-main"></div>
       </div>
-      <div class="result" id="result"></div>
+      <div class="result" id="result-main"></div>
     </main>
     <div class="app-preview">
-      앱 구동 화면 미리보기
+      <div id="quiz-preview">
+        <div class="question" id="question-preview"></div>
+        <div class="options" id="options-preview"></div>
+      </div>
+      <div class="result" id="result-preview"></div>
     </div>
   </div>
   <script>
@@ -131,32 +129,44 @@
     let current = 0;
     let totalScore = 0;
 
-    const questionDiv = document.getElementById('question');
-    const optionsDiv = document.getElementById('options');
-    const resultDiv = document.getElementById('result');
-
-    function showQuestion() {
+    function updateQuestion() {
       const q = questions[current];
-      questionDiv.textContent = q.q;
-      optionsDiv.innerHTML = '';
+      document.getElementById('question-main').textContent = q.q;
+      document.getElementById('question-preview').textContent = q.q;
+
+      const optionsMain = document.getElementById('options-main');
+      const optionsPreview = document.getElementById('options-preview');
+      optionsMain.innerHTML = '';
+      optionsPreview.innerHTML = '';
+
       q.options.forEach((option, i) => {
-        const btn = document.createElement('button');
-        btn.textContent = option;
-        btn.onclick = () => {
-          totalScore += q.scores[i];
-          current++;
-          if (current < questions.length) {
-            showQuestion();
-          } else {
-            showResult();
-          }
-        };
-        optionsDiv.appendChild(btn);
+        const btnMain = document.createElement('button');
+        btnMain.textContent = option;
+        btnMain.onclick = () => handleAnswer(i);
+
+        const btnPreview = document.createElement('button');
+        btnPreview.textContent = option;
+        btnPreview.onclick = () => handleAnswer(i);
+
+        optionsMain.appendChild(btnMain);
+        optionsPreview.appendChild(btnPreview);
       });
     }
 
-    function showResult() {
-      document.getElementById('quiz').style.display = 'none';
+    function handleAnswer(index) {
+      totalScore += questions[current].scores[index];
+      current++;
+      if (current < questions.length) {
+        updateQuestion();
+      } else {
+        showFinalResult();
+      }
+    }
+
+    function showFinalResult() {
+      document.getElementById('quiz-main').style.display = 'none';
+      document.getElementById('quiz-preview').style.display = 'none';
+
       let result = '';
       if (totalScore <= 4) {
         result = '🌱 초심자형 - 이제 시작이에요! 기초적인 정보부터 알아가요.';
@@ -165,10 +175,12 @@
       } else {
         result = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
       }
-      resultDiv.textContent = result;
+
+      document.getElementById('result-main').textContent = result;
+      document.getElementById('result-preview').textContent = result;
     }
 
-    showQuestion();
+    updateQuestion();
   </script>
 </body>
 </html>
