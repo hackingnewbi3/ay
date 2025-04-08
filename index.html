@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>꾸밈+ 테스트</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
   <style>
@@ -10,78 +10,126 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Noto Sans KR', sans-serif;
     }
+
     body {
-      background-color: #f7f7f7;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #f7f7f7;
       color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 2rem;
+      gap: 2rem;
     }
-    header {
-      padding: 1.5rem;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-      background-color: white;
-    }
-    header h1 {
-      font-size: 1.8rem;
-      font-weight: 600;
-    }
-    .container {
+
+    .test-container {
+      background: #fff;
+      width: 100%;
       max-width: 420px;
-      margin: 2rem auto;
-      background-color: white;
       padding: 2rem;
       border-radius: 16px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     }
+
+    .title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
     .question {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+      font-weight: 500;
       margin-bottom: 1.5rem;
-      line-height: 1.6;
+      text-align: center;
     }
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
+
     .options button {
-      padding: 1rem;
-      background-color: #f2f2f2;
+      width: 100%;
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.8rem;
+      background-color: #f0f0f0;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 1rem;
-      color: #333;
+      color: #111;
       cursor: pointer;
       transition: all 0.2s ease;
     }
+
     .options button:hover {
-      background-color: #e6e6e6;
+      background-color: #e0e0e0;
     }
+
     .result {
-      margin-top: 2rem;
-      font-size: 1.2rem;
-      font-weight: 500;
-      text-align: center;
+      font-size: 1.1rem;
       color: #444;
+      margin-top: 2rem;
+      text-align: center;
     }
-    @media (max-width: 500px) {
-      .container {
-        margin: 1rem;
-        padding: 1.5rem;
-      }
+
+    .iphone-preview {
+      width: 260px;
+      height: 520px;
+      border: 16px solid #ccc;
+      border-radius: 40px;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 1.5rem 1rem;
+    }
+
+    .iphone-notch {
+      width: 120px;
+      height: 24px;
+      background: #ccc;
+      border-radius: 12px;
+      margin: 0 auto 1rem;
+    }
+
+    .iphone-content .question {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .iphone-content button {
+      font-size: 0.9rem;
+      padding: 0.6rem;
+      margin-bottom: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background: #f4f4f4;
+      color: #111;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>꾸밈+ 테스트</h1>
-  </header>
-  <div class="container">
+  <div class="test-container">
+    <div class="title">꾸밈+ 유형 테스트</div>
     <div id="quiz">
       <div class="question" id="question"></div>
       <div class="options" id="options"></div>
     </div>
     <div class="result" id="result"></div>
+  </div>
+
+  <div class="iphone-preview">
+    <div class="iphone-notch"></div>
+    <div class="iphone-content">
+      <div class="question">나는 외모를 가꾸는 게 중요하다고 생각한다.</div>
+      <button>매우 그렇다</button>
+      <button>약간 그렇다</button>
+      <button>잘 모르겠다</button>
+      <button>아니다</button>
+    </div>
   </div>
 
   <script>
@@ -146,9 +194,9 @@
       if (totalScore <= 4) {
         result = '🌱 초심자형 - 이제 시작이에요! 기초적인 정보부터 알아가요.';
       } else if (totalScore <= 8) {
-        result = '🌿 도전형 - 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
+        result = '🌿 도전형 - 조금씩 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
       } else {
-        result = '🌳 실전형 - 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
+        result = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
       }
       resultDiv.textContent = result;
     }
