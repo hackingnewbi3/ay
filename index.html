@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>꾸밈+ 입문 가이드</title>
+  <title>꾸밈+ 꾸밈 유형 테스트</title>
   <style>
     body {
       margin: 0;
@@ -11,99 +11,133 @@
       background-color: #fff8f0;
       color: #333;
     }
-
     header {
       background-color: #ffe4c4;
       padding: 1.5rem;
       text-align: center;
     }
-
     header h1 {
       margin: 0;
       font-size: 2rem;
       color: #5a3e2b;
     }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #ffdab9;
-      padding: 0.5rem;
-    }
-
-    nav a {
-      margin: 0 1rem;
-      text-decoration: none;
-      color: #5a3e2b;
-      font-weight: bold;
-    }
-
-    section {
-      max-width: 800px;
+    main {
+      max-width: 600px;
       margin: 2rem auto;
-      padding: 1rem;
-      background-color: #ffffff;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.8rem;
+      background-color: #ffe4c4;
+      border: none;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      font-size: 1rem;
+      color: #5a3e2b;
+      cursor: pointer;
+      transition: background 0.2s;
     }
-
-    section h2 {
+    .options button:hover {
+      background-color: #ffd6aa;
+    }
+    .result {
+      font-size: 1.2rem;
       color: #c76c3f;
-    }
-
-    footer {
+      margin-top: 2rem;
       text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #888;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>꾸밈+ 입문 가이드</h1>
+    <h1>꾸밈 유형 테스트</h1>
   </header>
-  
-  <nav>
-    <a href="#fashion">패션</a>
-    <a href="#skin">피부</a>
-    <a href="#cosmetic">화장품</a>
-    <a href="#hair">헤어</a>
-    <a href="#color">퍼스널 컬러</a>
-  </nav>
+  <main>
+    <div id="quiz">
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+    </div>
+    <div class="result" id="result"></div>
+  </main>
+  <script>
+    const questions = [
+      {
+        q: "나는 외모를 가꾸는 게 중요하다고 생각한다.",
+        options: ["매우 그렇다", "약간 그렇다", "잘 모르겠다", "아니다"],
+        scores: [3, 2, 1, 0]
+      },
+      {
+        q: "화장품 종류를 몇 개 알고 있다?",
+        options: ["0~1개", "2~3개", "4개 이상"],
+        scores: [0, 1, 2]
+      },
+      {
+        q: "옷을 살 때 가장 중요하게 생각하는 건?",
+        options: ["가격", "유행", "내 취향", "추천 스타일"],
+        scores: [1, 2, 3, 2]
+      },
+      {
+        q: "내 피부 타입을 알고 있다.",
+        options: ["알고 있다", "모른다"],
+        scores: [2, 0]
+      },
+      {
+        q: "헤어스타일을 바꿔본 적이 있다.",
+        options: ["자주 바꾼다", "가끔 있다", "한 번도 없다"],
+        scores: [3, 2, 0]
+      }
+    ];
 
-  <section id="intro">
-    <h2>처음 시작하는 꾸밈</h2>
-    <p>자존감이 낮다고 느끼시나요? 괜찮습니다. 여기서부터 차근차근 시작해요. 옷, 피부, 머리, 향기까지. 지금보다 조금 더 나은 나를 위한 첫걸음입니다.</p>
-  </section>
+    let current = 0;
+    let totalScore = 0;
 
-  <section id="fashion">
-    <h2>패션</h2>
-    <p>기본 아이템부터 시작해보세요. 깔끔한 흰 셔츠, 슬림한 청바지, 깔끔한 스니커즈는 언제나 정답입니다.</p>
-  </section>
+    const questionDiv = document.getElementById('question');
+    const optionsDiv = document.getElementById('options');
+    const resultDiv = document.getElementById('result');
 
-  <section id="skin">
-    <h2>피부 관리</h2>
-    <p>세안, 수분크림, 자외선 차단제 이 세가지만 잘해도 피부는 달라집니다.</p>
-  </section>
+    function showQuestion() {
+      const q = questions[current];
+      questionDiv.textContent = q.q;
+      optionsDiv.innerHTML = '';
+      q.options.forEach((option, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.onclick = () => {
+          totalScore += q.scores[i];
+          current++;
+          if (current < questions.length) {
+            showQuestion();
+          } else {
+            showResult();
+          }
+        };
+        optionsDiv.appendChild(btn);
+      });
+    }
 
-  <section id="cosmetic">
-    <h2>화장품</h2>
-    <p>BB크림, 립밤만으로도 인상이 훨씬 또렷해질 수 있어요.</p>
-  </section>
+    function showResult() {
+      document.getElementById('quiz').style.display = 'none';
+      let result = '';
+      if (totalScore <= 4) {
+        result = '🌱 초심자형 - 이제 시작이에요! 기초적인 정보부터 알아가요.';
+      } else if (totalScore <= 8) {
+        result = '🌿 도전형 - 조금씩 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
+      } else {
+        result = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
+      }
+      resultDiv.textContent = result;
+    }
 
-  <section id="hair">
-    <h2>헤어</h2>
-    <p>어울리는 헤어 스타일을 찾는 건 꾸밈에서 매우 중요해요. 미용사에게 조언을 구해보세요.</p>
-  </section>
-
-  <section id="color">
-    <h2>퍼스널 컬러</h2>
-    <p>자신의 피부 톤에 어울리는 색을 찾으면 옷 선택이 쉬워져요. 웜톤? 쿨톤? 간단한 진단부터 시작해봐요.</p>
-  </section>
-
-  <footer>
-    &copy; 2025 꾸밈+ | 자신을 사랑하는 첫걸음
-  </footer>
+    showQuestion();
+  </script>
 </body>
 </html>
