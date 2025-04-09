@@ -53,13 +53,19 @@
       margin-top: 30px;
     }
     nav a {
-      text-decoration: none;
-      color: #333;
-      padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
     }
+
     nav a:hover {
-      color: #ff0000;
-    }
+    background-color: #e0e0e0;
+     }
+
     .iphone-screen {
       flex: 1;
       display: flex;
@@ -121,10 +127,11 @@
 <body>
   <div class="iphone-frame">
     <nav>
-      <a href="#">홈</a>
-      <a href="#">테스트</a>
-      <a href="#">문의</a>
+    <a href="#">🏠 홈</a>
+    <a href="#">🎯 테스트</a>
+    <a href="#">📞 문의</a>
     </nav>
+
     <div class="iphone-screen">
       <div class="container">
         <div class="question" id="question">질문이 여기에 표시됩니다.</div>
