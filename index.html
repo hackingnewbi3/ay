@@ -53,19 +53,17 @@
       margin-top: 30px;
     }
     nav a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    font-size: 15px;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: background-color 0.2s;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 15px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background-color 0.2s;
     }
-
     nav a:hover {
-    background-color: #e0e0e0;
-     }
-
+      background-color: #e0e0e0;
+    }
     .iphone-screen {
       flex: 1;
       display: flex;
@@ -127,9 +125,9 @@
 <body>
   <div class="iphone-frame">
     <nav>
-    <a href="#">🏠 홈</a>
-    <a href="#">🎯 테스트</a>
-    <a href="#">📞 문의</a>
+      <a href="#">🏠 홈</a>
+      <a href="#">🎯 테스트</a>
+      <a href="#">📞 문의</a>
     </nav>
 
     <div class="iphone-screen">
@@ -172,6 +170,41 @@
         q: "헤어스타일을 바꿔본 적이 있다.",
         options: ["자주 바꾼다", "가끔 있다", "한 번도 없다"],
         scores: [3, 2, 0]
+      },
+      {
+        q: "내 퍼스널 컬러(웜톤/쿨톤 등)를 알고 있다.",
+        options: ["정확히 알고 있다", "들어본 적은 있다", "모른다"],
+        scores: [3, 1, 0]
+      },
+      {
+        q: "평소에 선호하는 옷 핏은?",
+        options: ["오버핏", "슬림핏", "정핏", "신경 안 씀"],
+        scores: [2, 3, 2, 0]
+      },
+      {
+        q: "화장품을 살 때 가장 중요하게 생각하는 요소는?",
+        options: ["성분", "브랜드", "가격", "후기"],
+        scores: [3, 2, 1, 2]
+      },
+      {
+        q: "내 체형(상체, 하체, 골반 등)에 대해 이해하고 있다.",
+        options: ["잘 알고 있다", "대략 알고 있다", "전혀 모른다"],
+        scores: [3, 2, 0]
+      },
+      {
+        q: "피부 트러블이나 알러지에 맞춰 제품을 고른다.",
+        options: ["항상 고려한다", "가끔 고려한다", "전혀 고려 안 한다"],
+        scores: [3, 2, 0]
+      },
+      {
+        q: "패션 스타일을 참고하는 주된 경로는?",
+        options: ["SNS/유튜브", "친구/지인", "쇼핑몰 추천", "감으로 결정"],
+        scores: [3, 2, 2, 1]
+      },
+      {
+        q: "헤어스타일을 바꿀 때 고려하는 요소는?",
+        options: ["얼굴형", "유행", "연예인 스타일", "아무거나"],
+        scores: [3, 2, 1, 0]
       }
     ];
 
@@ -209,9 +242,9 @@
     function showResult() {
       optionsDiv.style.display = 'none';
       let result = '';
-      if (totalScore <= 4) {
+      if (totalScore <= 12) {
         result = '🌱 초심자형 - 이제 시작이에요! 기초적인 정보부터 알아가요.';
-      } else if (totalScore <= 8) {
+      } else if (totalScore <= 24) {
         result = '🌿 도전형 - 조금씩 감을 잡아가고 있어요. 다양한 시도를 해보세요!';
       } else {
         result = '🌳 실전형 - 이미 스타일에 대한 감이 있어요! 더 정제된 꾸밈을 시도해봐요.';
